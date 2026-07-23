@@ -25,7 +25,7 @@ export default async function SettingsPage() {
     const { data: subscription } = await supabase
     .from("subscriptions")
     .select("status")
-    .eq("id", user.id)
+   .eq("id", user?.id)
     .single();
 
     const isPro = subscription?.status === "active";

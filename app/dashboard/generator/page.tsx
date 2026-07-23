@@ -1,135 +1,62 @@
-"use client";
+// src/app/dashboard/generator/page.tsx
+export const dynamic = "force-dynamic";
 
-import { useState } from "react";
-import { useCompletion } from '@ai-sdk/react';
-import { Sparkles, Copy, Check, Loader2, Send } from "lucide-react";
+import { createClient } from "@/app/lib/supabase/server";
+import { Lock, Sparkles } from "lucide-react";
+import Link from "next/link";
+import GeneratorClient from "./GeneratorClient";
 
-export default function GeneratorPage() {
-  const [tone, setTone] = useState("Professional");
-  const [copied, setCopied] = useState(false);
+export default async function GeneratorPage() {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
 
-  // O hook mágico da Vercel que gerencia o estado da IA automaticamente
-  const { completion, input, handleInputChange, handleSubmit, isLoading } = useCompletion({
-    api: "/api/generate",
-    body: { tone },
-    onError: (err) => {
-    console.error("Erro na IA:", err);
-    alert("Ocorreu um erro ao gerar. Verifique o console do navegador.");
-  }, // Passamos o tom escolhido junto com o texto
-  });
+  // Verifica o status da assinatura do usuário no banco
+ const { data: subscription, error } = await supabase
+    .from("subscriptions")
+    .select("status")
+    .eq("id", user?.id);
 
-  const copyToClipboard = () => {
-    if (!completion) return;
-    navigator.clipboard.writeText(completion);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
+  console.log("=== DIAGNÓSTICO PROFUNDO ===");
+  console.log("1. Buscando o ID exato:", user?.id);
+  console.log("2. Dados que voltaram:", JSON.stringify(subscription));
+  console.log("3. Erro real (se houver):", JSON.stringify(error));
 
+  const isPro = subscription?.[0]?.status === "active";
+
+  // Se o usuário for PRO, renderiza a interface do gerador
+  if (isPro) {
+    return <GeneratorClient />;
+  }
+
+  // Se o usuário for FREE, renderiza a tela de bloqueio com Glassmorphism
   return (
-    <div className="max-w-5xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700 pb-12">
-      
-      {/* Header */}
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight text-text-primary flex items-center gap-2">
-          <Sparkles className="h-6 w-6 text-accent-blue" />
-          AI Generator
-        </h1>
-        <p className="text-sm text-text-secondary mt-1">
-          Describe what you need, and let the AI craft the perfect content for you.
-        </p>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+    <div className="max-w-3xl mx-auto flex flex-col items-center justify-center min-h-[60vh] animate-in fade-in zoom-in-95 duration-700">
+      <div className="bg-obsidian-surface/30 border border-obsidian-border/50 p-8 rounded-2xl backdrop-blur-xl text-center space-y-6 relative overflow-hidden">
         
-        {/* Lado Esquerdo: Controles */}
-        <div className="lg:col-span-4 space-y-6">
-          <form onSubmit={handleSubmit} className="space-y-6 bg-obsidian-surface/30 border border-obsidian-border/50 p-6 rounded-xl backdrop-blur-xl">
-            
-            {/* Tone Selector */}
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-text-primary">Tone of Voice</label>
-              <select 
-                value={tone}
-                onChange={(e) => setTone(e.target.value)}
-                className="w-full bg-obsidian-elevated border border-obsidian-border rounded-lg px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-1 focus:ring-accent-blue transition-all"
-              >
-                <option value="Professional">Professional</option>
-                <option value="Casual & Friendly">Casual & Friendly</option>
-                <option value="Persuasive (Sales)">Persuasive (Sales)</option>
-                <option value="Humorous">Humorous</option>
-                <option value="Academic">Academic</option>
-              </select>
-            </div>
+        {/* Efeito visual de fundo */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-32 bg-accent-blue/20 blur-[50px] rounded-full pointer-events-none" />
 
-            {/* Prompt Input */}
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-text-primary">What do you want to create?</label>
-              <textarea
-                value={input}
-                onChange={handleInputChange}
-                placeholder="E.g., Write a 3-paragraph Instagram caption for a luxury car detailing service..."
-                className="w-full h-32 bg-obsidian-elevated border border-obsidian-border rounded-lg px-3 py-2 text-sm text-text-primary placeholder:text-text-secondary/50 focus:outline-none focus:ring-1 focus:ring-accent-blue resize-none transition-all"
-                required
-              />
-            </div>
-
-            {/* Submit Button */}
-            <button
-              type="submit"
-              disabled={isLoading || !input}
-              className="w-full flex items-center justify-center gap-2 bg-accent-blue hover:bg-accent-blue/90 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {isLoading ? (
-                <>
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                  Generating...
-                </>
-              ) : (
-                <>
-                  <Send className="w-4 h-4" />
-                  Generate Content
-                </>
-              )}
-            </button>
-          </form>
+        <div className="mx-auto w-16 h-16 bg-obsidian-elevated flex items-center justify-center rounded-full border border-obsidian-border/50 mb-6">
+          <Lock className="w-8 h-8 text-accent-blue" />
         </div>
-
-        {/* Lado Direito: Resultado da IA */}
-        <div className="lg:col-span-8">
-          <div className="h-full min-h-[400px] flex flex-col bg-obsidian-surface/30 border border-obsidian-border/50 rounded-xl backdrop-blur-xl overflow-hidden relative group">
-            
-            {/* Toolbar do Resultado */}
-            <div className="flex items-center justify-between px-4 py-3 border-b border-obsidian-border/50 bg-obsidian-elevated/30">
-              <span className="text-xs font-medium text-text-secondary uppercase tracking-wider">
-                Output
-              </span>
-              {completion && (
-                <button 
-                  onClick={copyToClipboard}
-                  className="flex items-center gap-1.5 text-xs font-medium text-text-secondary hover:text-text-primary transition-colors bg-obsidian-elevated px-2 py-1 rounded-md border border-obsidian-border/50"
-                >
-                  {copied ? <Check className="w-3.5 h-3.5 text-green-400" /> : <Copy className="w-3.5 h-3.5" />}
-                  {copied ? "Copied!" : "Copy Text"}
-                </button>
-              )}
-            </div>
-
-            {/* Área de Texto */}
-            <div className="p-6 flex-1 overflow-y-auto">
-              {completion ? (
-                <div className="prose prose-invert max-w-none text-text-primary text-sm leading-relaxed whitespace-pre-wrap">
-                  {completion}
-                </div>
-              ) : (
-                <div className="h-full flex flex-col items-center justify-center text-text-secondary/50 space-y-4">
-                  <Sparkles className="w-12 h-12 opacity-20" />
-                  <p className="text-sm">Your generated content will appear here.</p>
-                </div>
-              )}
-            </div>
-          </div>
+        
+        <h1 className="text-2xl font-bold text-text-primary tracking-tight">
+          Unlock the AI Generator
+        </h1>
+        
+        <p className="text-sm text-text-secondary max-w-md mx-auto leading-relaxed">
+          You are currently on the Free plan. Upgrade to Pro to get unlimited access to our elite artificial intelligence and start generating high-quality content.
+        </p>
+        
+        <div className="pt-4">
+          <Link 
+            href="/dashboard/settings"
+            className="inline-flex items-center gap-2 bg-accent-blue hover:bg-accent-blue/90 text-white px-6 py-3 rounded-lg text-sm font-medium transition-all hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(37,99,235,0.3)]"
+          >
+            <Sparkles className="w-4 h-4" />
+            Upgrade to Pro
+          </Link>
         </div>
-
       </div>
     </div>
   );

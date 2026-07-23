@@ -3,10 +3,11 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Mail, Lock, Github, AlertCircle } from "lucide-react";
+import { Mail, Lock, AlertCircle } from "lucide-react";
 import { Button } from "@/app/components/ui/Button";
 import { Input } from "@/app/components/ui/Input";
 import { createClient } from "@/app/lib/supabase/client";
+import { SocialAuthButtons } from "@/app/components/auth/SocialAuthButtons";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -127,7 +128,9 @@ export default function LoginPage() {
           </p>
         </div>
 
-        <div className="grid grid-cols-2 gap-3">
+        <SocialAuthButtons />
+
+        {/* <div className="grid grid-cols-2 gap-3">
           <Button variant="secondary" className="w-full" type="button">
             <svg
               className="w-4 h-4 mr-2"
@@ -186,7 +189,7 @@ export default function LoginPage() {
             </svg>
             Google
           </Button>
-        </div>
+        </div> */}
 
         <p className="mt-8 text-center text-sm text-text-secondary">
           Don´t have an account?{" "}

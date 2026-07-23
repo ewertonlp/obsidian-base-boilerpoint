@@ -15,6 +15,7 @@ export default async function DashboardLayout({
     data: { user },
   } = await supabase.auth.getUser();
 
+
   if (!user) {
     redirect("/login");
   }
@@ -25,6 +26,8 @@ export default async function DashboardLayout({
     .select("full_name, role")
     .eq("id", user.id)
     .single();
+
+    const displayName = profile?.full_name || user.user_metadata?.full_name || "Desenvolvedor";
 
   return (
     <div className="flex min-h-screen bg-obsidian-bg text-text-primary selection:bg-accent-blue/30">
@@ -47,7 +50,7 @@ export default async function DashboardLayout({
                 <User className="h-3.5 w-3.5 text-accent-blue" />
               </div>
               <span className="text-sm font-medium">
-                {profile?.full_name || "Desenvolvedor"}
+                {displayName}
               </span>
               <div className="ml-2 border-l border-obsidian-border/50 pl-3">
                 <LogoutButton />

@@ -31,14 +31,14 @@ export default function LandingPage() {
         {/* Hero Section */}
         <section className="relative w-full max-w-5xl px-6 pt-32 pb-24 text-center flex flex-col items-center">
           {/* Brilho de fundo para dar profundidade */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-accent-blue/5 blur-[120px] rounded-full pointer-events-none" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-150 h-150 bg-accent-blue/5 blur-[120px] rounded-full pointer-events-none" />
           
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full glass-panel border-accent-blue/20 text-accent-blue text-sm font-medium mb-8">
             <Zap className="h-4 w-4" />
             <span>Ship your startup in days, not weeks.</span>
           </div>
           
-          <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-b from-white to-text-secondary mb-6 relative z-10">
+          <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-transparent bg-clip-text bg-linear-to-b from-white to-text-secondary pb-12 relative z-20">
             The solid foundation <br /> for your next big idea.
           </h1>
           

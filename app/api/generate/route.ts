@@ -22,6 +22,17 @@ export async function POST(req: Request) {
     return new Response("Unauthorized", { status: 401 });
   }
 
+  const { data: subscription } = await supabase
+    .from("subscriptions")
+    .select("status")
+    .eq("id", user.id)
+    .single();
+
+  if (subscription?.status !== "active") {
+    // 402 é o código HTTP oficial para "Payment Required" (Pagamento Necessário)
+    return new Response("Payment Required", { status: 402 }); 
+  }
+
   // 2. Coleta os dados enviados pela interface
   const { prompt, tone } = await req.json();
 
@@ -36,6 +47,27 @@ export async function POST(req: Request) {
     model: deepseek("deepseek-chat"), // Modelo rápido, inteligente e barato
     system: systemMessage,
     prompt: prompt,
+  
+
+
+  async onFinish({ text }) {
+      // Cria um título curto baseado no que o usuário digitou (pegando os primeiros 40 caracteres)
+      const shortTitle = prompt.length > 40 ? prompt.substring(0, 40) + "..." : prompt;
+
+      const { error } = await supabase
+        .from("projects")
+        .insert({
+          user_id: user.id,
+          title: shortTitle,
+          type: tone, // Salva o tom de voz usado como o "tipo"
+          content: text, // O texto final completo gerado pela IA
+          status: "Completed",
+        });
+
+      if (error) {
+        console.error("Erro ao salvar no Supabase:", error);
+      }
+    },
   });
 
 return createUIMessageStreamResponse({
