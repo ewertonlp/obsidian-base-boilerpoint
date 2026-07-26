@@ -33,8 +33,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             id={inputId}
             ref={ref}
             className={`
-              flex h-10 w-full rounded-xl bg-obsidian-surface/50 px-3 py-2 text-sm text-text-primary 
-              border transition-all placeholder:text-text-secondary/50 focus:outline-none focus:ring-1
+              flex h-10 w-full rounded-xl bg-obsidian-surface/70 px-3 py-2 text-sm text-text-primary border transition-all placeholder:text-text-secondary/50 focus:outline-none focus:ring-1
               ${icon ? "pl-10" : ""} 
               ${error 
                 ? "border-red-500 focus:border-red-500 focus:ring-red-500" 

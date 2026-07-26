@@ -22,7 +22,7 @@ export function Topbar() {
         <button className="relative text-text-secondary hover:text-text-primary transition-colors">
           <Bell className="h-5 w-5" />
           {/* Ponto dourado indicando nova notificação */}
-          <span className="absolute -right-0.5 -top-0.5 h-2 w-2 rounded-full bg-accent-gold"></span>
+          <span className="absolute -right-0.5 -top-0.5 h-2 w-2 rounded-full bg-accent-gol"></span>
         </button>
         
         {/* Divisor Visual */}

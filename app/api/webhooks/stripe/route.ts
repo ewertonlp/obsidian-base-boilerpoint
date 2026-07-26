@@ -45,16 +45,16 @@ export async function POST(req: Request) {
           stripe_subscription_id: session.subscription as string,
           stripe_customer_id: session.customer as string,
         })
-        .eq("id", userId)
-        .select(); // Adicionamos select() para o Supabase nos devolver o que alterou
+       .eq("id", userId)
+        .select(); 
 
       if (error) {
-        console.error("🔴 [WEBHOOK] Erro no Supabase:", error.message);
+        console.error("🔴 [WEBHOOK] Supabase Error:", error.message);
       } else {
-        console.log("🟢 [WEBHOOK] Supabase atualizado com sucesso:", data);
+        console.log("🟢 [WEBHOOK] Supabase updated successfully:", data);
       }
     } else {
-      console.log("🟡 [WEBHOOK] Ignorado: Nenhum userId encontrado no metadata.");
+      console.log("🟡 [WEBHOOK] Ignored: No userId found in the metadata.");
     }
   }
 

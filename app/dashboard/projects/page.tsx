@@ -29,7 +29,7 @@ export default async function ProjectsPage() {
         </div>
         <Link 
           href="/dashboard/generator"
-          className="flex items-center gap-2 bg-accent-blue hover:bg-accent-blue/90 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+          className="flex items-center gap-2 bg-accent-violet hover:bg-accent-violet/80 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors md:cursor-pointer"
         >
           <Plus className="w-4 h-4" />
           New Generation

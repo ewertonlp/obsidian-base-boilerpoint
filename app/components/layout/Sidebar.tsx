@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Users, CreditCard, Settings, CodeSquare, Sparkles } from "lucide-react";
+import { LayoutDashboard, Users, Settings, CodeSquare, Sparkles } from "lucide-react";
 
 export function Sidebar() {
   const pathname = usePathname(); // Pega a rota (URL) atual
@@ -13,13 +13,13 @@ export function Sidebar() {
     
     return `flex items-center rounded-lg px-3 py-2 text-sm font-medium transition-all duration-200 ${
       isActive
-        ? "bg-accent-blue/15 text-accent-blue" // ESTADO ATIVO: Fundo colorido sutil e texto em destaque
-        : "text-text-secondary hover:bg-obsidian-surface/50 hover:text-text-primary" // ESTADO INATIVO
+        ? "bg-accent-blue/15 text-accent-blue" 
+        : "text-text-secondary hover:bg-obsidian-surface/50 hover:text-text-primary" 
     }`;
   };
 
   return (
-    <aside className="glass-panel flex h-screen w-64 flex-col border-r border-y-0 border-l-0">
+    <aside className="glass-panel sticky top-0 flex h-screen w-64 flex-col border-r border-y-0 border-l-0">
       
       {/* Logo Area */}
       <div className="flex h-16 items-center px-6 border-b border-obsidian-border/50">

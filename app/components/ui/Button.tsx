@@ -2,7 +2,7 @@ import { ButtonHTMLAttributes, forwardRef } from "react";
 import { Loader2 } from "lucide-react";
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "primary" | "secondary" | "ghost" | "danger" | "gold";
+  variant?: "primary" | "secondary" | "ghost" | "danger" | "violet";
   size?: "sm" | "md" | "lg";
   isLoading?: boolean;
 }
@@ -10,23 +10,23 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className = "", variant = "primary", size = "md", isLoading, children, disabled, ...props }, ref) => {
     
-    // Mapeamento de estilos por variante
+   
     const variants = {
       primary: "bg-accent-blue text-white shadow-md hover:bg-accent-blue/90 border border-transparent",
       secondary: "glass-panel hover:bg-obsidian-elevated text-text-primary",
       ghost: "bg-transparent text-text-secondary hover:text-text-primary hover:bg-obsidian-elevated border border-transparent",
       danger: "bg-red-500/10 text-red-500 border border-red-500/20 hover:bg-red-500/20",
-      gold: "bg-accent-gold text-obsidian shadow-sm hover:bg-accent-gold/90 font-semibold",
+      violet: "bg-accent-violet text-obsidian shadow-sm hover:bg-accent-violet/90 font-semibold",
     };
 
-    // Mapeamento de estilos por tamanho
+    
     const sizes = {
       sm: "h-8 px-3 text-xs rounded-lg",
-      md: "h-10 px-4 py-2 text-sm rounded-xl",
+      md: "h-10 px-4 py-2 text-sm rounded-lg",
       lg: "h-12 px-6 text-base rounded-xl",
     };
 
-    const baseStyles = "inline-flex items-center justify-center font-medium transition-all focus:outline-none focus:ring-2 focus:ring-obsidian-border focus:ring-offset-2 focus:ring-offset-obsidian disabled:opacity-50 disabled:pointer-events-none active:scale-[0.98]";
+    const baseStyles = "inline-flex items-center justify-center font-medium transition-all focus:outline-none focus:ring-2 focus:ring-obsidian-border focus:ring-offset-2 focus:ring-offset-obsidian disabled:opacity-50 disabled:pointer-events-none active:scale-[0.98] md:cursor-pointer";
 
     return (
       <button

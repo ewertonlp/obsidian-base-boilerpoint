@@ -38,7 +38,7 @@ export default function GeneratorClient() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-10 gap-6">
         {/* Lado Esquerdo: Controles */}
         <div className="lg:col-span-4 space-y-6">
           <form onSubmit={handleSubmit} className="space-y-6 bg-obsidian-surface/30 border border-obsidian-border/50 p-6 rounded-xl backdrop-blur-xl">
@@ -48,7 +48,7 @@ export default function GeneratorClient() {
               <select 
                 value={tone}
                 onChange={(e) => setTone(e.target.value)}
-                className="w-full bg-obsidian-elevated border border-obsidian-border rounded-lg px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-1 focus:ring-accent-blue transition-all"
+                className="mt-2 w-full bg-obsidian-elevated border border-obsidian-border rounded-lg px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-1 focus:ring-accent-blue transition-all"
               >
                 <option value="Professional">Professional</option>
                 <option value="Casual & Friendly">Casual & Friendly</option>
@@ -60,12 +60,12 @@ export default function GeneratorClient() {
 
             {/* Prompt Input */}
             <div className="space-y-2">
-              <label className="text-sm font-medium text-text-primary">What do you want to create?</label>
+              <label className=" text-sm font-medium text-text-primary">What do you want to create?</label>
               <textarea
                 value={input}
                 onChange={handleInputChange}
                 placeholder="E.g., Write a 3-paragraph Instagram caption for a luxury car detailing service..."
-                className="w-full h-32 bg-obsidian-elevated border border-obsidian-border rounded-lg px-3 py-2 text-sm text-text-primary placeholder:text-text-secondary/50 focus:outline-none focus:ring-1 focus:ring-accent-blue resize-none transition-all"
+                className="mt-2 w-full h-32 bg-obsidian-elevated border border-obsidian-border rounded-lg px-3 py-2 text-sm text-text-primary placeholder:text-text-secondary/50 focus:outline-none focus:ring-1 focus:ring-accent-blue resize-none transition-all"
                 required
               />
             </div>
@@ -92,8 +92,8 @@ export default function GeneratorClient() {
         </div>
 
         {/* Lado Direito: Resultado da IA */}
-        <div className="lg:col-span-8">
-          <div className="h-full min-h-[400px] flex flex-col bg-obsidian-surface/30 border border-obsidian-border/50 rounded-xl backdrop-blur-xl overflow-hidden relative group">
+        <div className="lg:col-span-6">
+          <div className="h-full min-h-80 flex flex-col bg-obsidian-surface/30 border border-obsidian-border/50 rounded-xl backdrop-blur-xl overflow-hidden relative group">
             {/* Toolbar do Resultado */}
             <div className="flex items-center justify-between px-4 py-3 border-b border-obsidian-border/50 bg-obsidian-elevated/30">
               <span className="text-xs font-medium text-text-secondary uppercase tracking-wider">
