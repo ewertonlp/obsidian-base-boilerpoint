@@ -1,0 +1,38 @@
+# UI & Components
+
+Obsidian Base features a premium, high-contrast "Glassmorphism" aesthetic out of the box. All components are built with Tailwind CSS and Radix UI primitives.
+
+## The Button Component
+
+Our universal `<Button />` component handles loading states, variants, and sizes automatically.
+
+```tsx
+import { Button } from "@/components/ui/Button";
+
+export default function MyPage() {
+  return (
+    <div className="flex gap-4">
+      <Button variant="primary">Primary Action</Button>
+      <Button variant="outline">Secondary Action</Button>
+      <Button isLoading>Saving...</Button>
+    </div>
+  );
+}
+```
+## The Input Component
+
+The `<Input />` component is designed to look perfect on dark mode, featuring a subtle glass surface and smooth focus rings. It natively supports React's forwardRef and handles Hydration errors elegantly using useId().
+
+```typescript
+import { Input } from "@/components/ui/Input";
+
+export function Form() {
+  return (
+    <Input placeholder="Enter your email" required type="email"/>
+  );
+}
+```
+
+## Customizing Colors
+
+Want to change the accent color? Open your `tailwind.config.ts` and modify the `accent-blue` or `accent-green` variables to match your brand's identity. The entire UI will update automatically.

@@ -1,0 +1,57 @@
+# Authentication
+
+Obsidian Base uses Supabase Auth for a seamless, secure, and blazing-fast authentication experience. It handles everything from magic links to social logins.
+
+## Server-Side Authentication
+
+In the Next.js App Router, it's highly recommended to fetch the user session on the server to prevent layout shifts and protect your routes effectively.
+
+Use our pre-configured Supabase server client:
+
+```typescript
+import { createClient } from "@/app/lib/supabase/server";
+import { redirect } from "next/navigation";
+
+export default async function DashboardPage() {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  // Protect the route
+  if (!user) {
+    redirect("/login");
+  }
+
+  return (
+    <div>
+      <h1>Welcome back, {user.email}</h1>
+    </div>
+  );
+}
+```
+
+
+## Client-Side Authentication
+
+If you need to access the user state inside a client component (e.g., a dynamic form or a toggle button), use the client-side helper:
+
+```typescript
+"use client";
+
+import { createClient } from "@/app/lib/supabase/client";
+import { useEffect, useState } from "react";
+
+export function UserProfile() {
+  const supabase = createClient();
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const { data } = await supabase.auth.getUser();
+      setUser(data.user);
+    };
+    fetchUser();
+  }, []);
+
+  return <div>{user ? "Logged in" : "Guest"}</div>;
+}
+```

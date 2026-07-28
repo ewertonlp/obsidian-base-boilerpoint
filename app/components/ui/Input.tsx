@@ -1,4 +1,4 @@
-import { InputHTMLAttributes, forwardRef, ReactNode } from "react";
+import { InputHTMLAttributes, forwardRef, useId, ReactNode } from "react";
 
 export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
@@ -7,14 +7,14 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ className = "", label, error, icon, id, ...props }, ref) => {
-    
-    // Gerar um ID aleatório se não for fornecido, para conectar o label ao input
-    const inputId = id || Math.random().toString(36).substring(7);
+  ({ className = "", label, error, type, icon, id, ...props }, ref) => {
+
+    const reactId = useId();
+    const inputId = id ?? reactId;
 
     return (
       <div className="flex flex-col w-full">
-        {/* Label Opcional */}
+        {/* Label Optional */}
         {label && (
           <label htmlFor={inputId} className="mb-1.5 text-sm font-medium text-text-primary">
             {label}
@@ -22,7 +22,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         )}
         
         <div className="relative flex items-center">
-          {/* Ícone Opcional (posicionado à esquerda) */}
+       
           {icon && (
             <div className="absolute left-3 text-text-secondary">
               {icon}
@@ -32,6 +32,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           <input
             id={inputId}
             ref={ref}
+            type={type}
             className={`
               flex h-10 w-full rounded-xl bg-obsidian-surface/70 px-3 py-2 text-sm text-text-primary border transition-all placeholder:text-text-secondary/50 focus:outline-none focus:ring-1
               ${icon ? "pl-10" : ""} 
@@ -46,7 +47,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           />
         </div>
 
-        {/* Mensagem de Erro Opcional */}
+   
         {error && (
           <span className="mt-1.5 text-xs text-red-500">
             {error}

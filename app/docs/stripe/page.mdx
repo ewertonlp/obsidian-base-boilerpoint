@@ -1,0 +1,29 @@
+# Payments & Stripe
+
+Monetize your SaaS in minutes. Obsidian Base comes with Stripe Checkout and Webhooks fully integrated, so you don't have to worry about the billing logic.
+
+## 1. Configure your API Keys
+
+Go to your Stripe Dashboard and find your API keys. Add them to your `.env.local` file:
+
+```bash
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_...
+STRIPE_SECRET_KEY=sk_test_...
+STRIPE_WEBHOOK_SECRET=whsec_...
+```
+
+## 2. Creating Products
+
+- In your Stripe Dashboard, go to Products and click Add Product.
+- Name your product (e.g., "Pro Plan") and set a price.
+- Copy the Price ID (it looks like price_1Nxyz...).
+- Paste this ID into your config/pricing.ts file or directly into your checkout links.
+
+## 3. Testing Webhooks Locally
+
+To test successful payments on your local machine, use the Stripe CLI. Open your terminal and run:
+
+```bash
+stripe listen --forward-to localhost:3000/api/webhooks/stripe
+```
+This will give you a webhook secret. Update your .env.local with it, and Stripe will now notify your local database whenever a mock payment goes through!
