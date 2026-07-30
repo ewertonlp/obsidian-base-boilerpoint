@@ -1,6 +1,15 @@
 import { createClient } from "@/app/lib/supabase/server";
 import { supabaseAdmin } from "@/app/lib/supabase/admin";
-import { Users, CreditCard, Activity, Summary, Calendar } from "lucide-react";
+import {
+  Users,
+  CreditCard,
+  Activity,
+  Summary,
+  Calendar,
+  UserCog2Icon,
+  Shield,
+  ShieldAlert,
+} from "lucide-react";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { MetricsChart } from "@/app/components/ui/MetricsChart";
@@ -13,11 +22,17 @@ export default async function AdminDashboardPage({
   searchParams: { range?: string };
 }) {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) redirect("/login");
 
-  const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).single();
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("role")
+    .eq("id", user.id)
+    .single();
   if (profile?.role !== "admin") redirect("/dashboard");
 
   // Define o filtro atual baseado na URL (padrão é 7d)
@@ -26,15 +41,23 @@ export default async function AdminDashboardPage({
   // ==========================================
   // BUSCANDO OS DADOS GLOBAIS (ALL-TIME)
   // ==========================================
-  const { count: totalUsers } = await supabaseAdmin.from("profiles").select("*", { count: "exact", head: true });
-  const { count: proUsers } = await supabaseAdmin.from("subscriptions").select("*", { count: "exact", head: true }).eq("status", "active");
-  const { count: totalGenerations } = await supabaseAdmin.from("projects").select("*", { count: "exact", head: true });
+  const { count: totalUsers } = await supabaseAdmin
+    .from("profiles")
+    .select("*", { count: "exact", head: true });
+  const { count: proUsers } = await supabaseAdmin
+    .from("subscriptions")
+    .select("*", { count: "exact", head: true })
+    .eq("status", "active");
+  const { count: totalGenerations } = await supabaseAdmin
+    .from("projects")
+    .select("*", { count: "exact", head: true });
 
   const usersCount = totalUsers || 0;
   const proCount = proUsers || 0;
   const PLAN_PRICE = 9;
   const monthlyRevenue = proCount * PLAN_PRICE;
-  const conversionRate = usersCount > 0 ? ((proCount / usersCount) * 100).toFixed(1) : "0.0";
+  const conversionRate =
+    usersCount > 0 ? ((proCount / usersCount) * 100).toFixed(1) : "0.0";
 
   // ==========================================
   // LÓGICA DO GRÁFICO DINÂMICO
@@ -51,20 +74,30 @@ export default async function AdminDashboardPage({
   } else {
     startDate.setDate(today.getDate() - 6); // Padrão: 7 dias
   }
-  
+
   startDate.setHours(0, 0, 0, 0);
   const dateStrQuery = startDate.toISOString();
 
   // Busca os dados otimizados a partir da nova data de início
   const [recentProfiles, recentSubs, recentProjects] = await Promise.all([
-    supabaseAdmin.from("profiles").select("created_at").gte("created_at", dateStrQuery),
-    supabaseAdmin.from("subscriptions").select("created_at").gte("created_at", dateStrQuery).eq("status", "active"),
-    supabaseAdmin.from("projects").select("created_at").gte("created_at", dateStrQuery)
+    supabaseAdmin
+      .from("profiles")
+      .select("created_at")
+      .gte("created_at", dateStrQuery),
+    supabaseAdmin
+      .from("subscriptions")
+      .select("created_at")
+      .gte("created_at", dateStrQuery)
+      .eq("status", "active"),
+    supabaseAdmin
+      .from("projects")
+      .select("created_at")
+      .gte("created_at", dateStrQuery),
   ]);
 
   // Função auxiliar para estruturar os dados dependendo do período (Dias vs Meses)
   const isYear = range === "1y";
-  const dataPointsCount = isYear ? 12 : (range === "30d" ? 30 : 7);
+  const dataPointsCount = isYear ? 12 : range === "30d" ? 30 : 7;
 
   const chartTimeline = Array.from({ length: dataPointsCount }).map((_, i) => {
     let pointName = "";
@@ -78,23 +111,36 @@ export default async function AdminDashboardPage({
       const monthPrefix = d.toISOString().slice(0, 7); // Ex: "2025-10"
       pointName = d.toLocaleDateString("en-US", { month: "short" });
 
-      usersInPeriod = recentProfiles.data?.filter(p => p.created_at.startsWith(monthPrefix)).length || 0;
-      proInPeriod = recentSubs.data?.filter(s => s.created_at.startsWith(monthPrefix)).length || 0;
-      gensInPeriod = recentProjects.data?.filter(p => p.created_at.startsWith(monthPrefix)).length || 0;
+      usersInPeriod =
+        recentProfiles.data?.filter((p) => p.created_at.startsWith(monthPrefix))
+          .length || 0;
+      proInPeriod =
+        recentSubs.data?.filter((s) => s.created_at.startsWith(monthPrefix))
+          .length || 0;
+      gensInPeriod =
+        recentProjects.data?.filter((p) => p.created_at.startsWith(monthPrefix))
+          .length || 0;
     } else {
       // AGRUPAMENTO POR DIA (7 ou 30 dias)
       const d = new Date(startDate);
       d.setDate(d.getDate() + i);
       const dayStr = d.toISOString().split("T")[0]; // Ex: "2026-07-24"
-      
-      // Se for 30 dias, mostra o dia do mês (ex: "15"). Se for 7 dias, mostra a semana (ex: "Mon")
-      pointName = range === "30d" 
-        ? d.getDate().toString() 
-        : d.toLocaleDateString("en-US", { weekday: "short" });
 
-      usersInPeriod = recentProfiles.data?.filter(p => p.created_at.startsWith(dayStr)).length || 0;
-      proInPeriod = recentSubs.data?.filter(s => s.created_at.startsWith(dayStr)).length || 0;
-      gensInPeriod = recentProjects.data?.filter(p => p.created_at.startsWith(dayStr)).length || 0;
+      // Se for 30 dias, mostra o dia do mês (ex: "15"). Se for 7 dias, mostra a semana (ex: "Mon")
+      pointName =
+        range === "30d"
+          ? d.getDate().toString()
+          : d.toLocaleDateString("en-US", { weekday: "short" });
+
+      usersInPeriod =
+        recentProfiles.data?.filter((p) => p.created_at.startsWith(dayStr))
+          .length || 0;
+      proInPeriod =
+        recentSubs.data?.filter((s) => s.created_at.startsWith(dayStr))
+          .length || 0;
+      gensInPeriod =
+        recentProjects.data?.filter((p) => p.created_at.startsWith(dayStr))
+          .length || 0;
     }
 
     return {
@@ -104,14 +150,18 @@ export default async function AdminDashboardPage({
       generations: gensInPeriod,
     };
   });
-  
-  // LOG DE DIAGNÓSTICO (Olhe no seu terminal do VS Code)
-  console.log("=== DADOS DOS GRÁFICOS ===", JSON.stringify(chartTimeline, null, 2));
+
+ 
+  console.log(
+    "=== DADOS DOS GRÁFICOS ===",
+    JSON.stringify(chartTimeline, null, 2),
+  );
 
   return (
     <div className="max-w-6xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700 pb-12">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight text-accent-blue/90">
+        <h1 className="text-2xl font-bold tracking-tight text-text-primary flex items-center gap-2">
+          <ShieldAlert className="w-6 h-6 text-amber-500" />
           Admin Dashboard
         </h1>
         <p className="text-sm text-neutral-400 mt-1">
@@ -120,27 +170,26 @@ export default async function AdminDashboardPage({
       </div>
 
       {/* CONTROLES DE FILTRO */}
-        <div className="flex items-center bg-obsidian-surface/50 border border-obsidian-border/50 rounded-lg p-1">
-          <Link 
-            href="/dashboard/admin?range=7d" 
-            className={`px-4 py-1.5 text-sm font-medium rounded-md transition-all ${range === "7d" ? "bg-accent-blue/20 text-accent-blue" : "text-text-secondary hover:text-text-primary"}`}
-          >
-            7 Days
-          </Link>
-          <Link 
-            href="/dashboard/admin?range=30d" 
-            className={`px-4 py-1.5 text-sm font-medium rounded-md transition-all ${range === "30d" ? "bg-accent-blue/20 text-accent-blue" : "text-text-secondary hover:text-text-primary"}`}
-          >
-            30 Days
-          </Link>
-          <Link 
-            href="/dashboard/admin?range=1y" 
-            className={`px-4 py-1.5 text-sm font-medium rounded-md transition-all ${range === "1y" ? "bg-accent-blue/20 text-accent-blue" : "text-text-secondary hover:text-text-primary"}`}
-          >
-            1 Year
-          </Link>
-        </div>
-    
+      <div className="flex items-center bg-obsidian-surface/50 border border-obsidian-border/50 rounded-lg p-1">
+        <Link
+          href="/dashboard/admin?range=7d"
+          className={`px-4 py-1.5 text-sm font-medium rounded-md transition-all ${range === "7d" ? "bg-accent-blue/20 text-accent-blue" : "text-text-secondary hover:text-text-primary"}`}
+        >
+          7 Days
+        </Link>
+        <Link
+          href="/dashboard/admin?range=30d"
+          className={`px-4 py-1.5 text-sm font-medium rounded-md transition-all ${range === "30d" ? "bg-accent-blue/20 text-accent-blue" : "text-text-secondary hover:text-text-primary"}`}
+        >
+          30 Days
+        </Link>
+        <Link
+          href="/dashboard/admin?range=1y"
+          className={`px-4 py-1.5 text-sm font-medium rounded-md transition-all ${range === "1y" ? "bg-accent-blue/20 text-accent-blue" : "text-text-secondary hover:text-text-primary"}`}
+        >
+          1 Year
+        </Link>
+      </div>
 
       {/* Grid de Métricas Globais */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
@@ -212,64 +261,63 @@ export default async function AdminDashboardPage({
       {/* Seção de Atividade Recente (Gráfico Real) */}
       <div className="space-y-4 pt-4 relative">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-accent-blue/5 blur-[80px] rounded-full pointer-events-none" />
-        
-       
-          <div className="mb-6">
-            <h3 className="text-lg font-semibold text-text-primary">
-              Desempenho de Gerações da IA
-            </h3>
-            <p className="text-sm text-text-secondary mt-1">
-              Content generation volume over the last 7 days.
-            </p>
-          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          
+        <div className="mb-6">
+          <h3 className="text-lg font-semibold text-text-primary">
+            Desempenho de Gerações da IA
+          </h3>
+          <p className="text-sm text-text-secondary mt-1">
+            Content generation volume over the last 7 days.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Gráfico 1: Receita (Verde/Dourado) */}
           <Card className="p-5 flex flex-col h-full">
-            <h4 className="text-sm font-medium text-text-secondary mb-4">New Revenue</h4>
+            <h4 className="text-sm font-medium text-text-secondary mb-4">
+              New Revenue
+            </h4>
             <div className="w-full flex-1">
-              <MetricsChart 
-                data={chartTimeline} 
-                dataKey="revenue" 
-                height={200} 
-                color="green" 
-                valuePrefix="$" 
+              <MetricsChart
+                data={chartTimeline}
+                dataKey="revenue"
+                height={200}
+                color="green"
+                valuePrefix="$"
               />
             </div>
           </Card>
 
           {/* Gráfico 2: Novos Usuários (Azul) */}
           <Card className="p-5 flex flex-col h-full">
-            <h4 className="text-sm font-medium text-text-secondary mb-4">New Users</h4>
+            <h4 className="text-sm font-medium text-text-secondary mb-4">
+              New Users
+            </h4>
             <div className="w-full flex-1">
-              <MetricsChart 
-                data={chartTimeline} 
-                dataKey="users" 
-                height={200} 
-                color="blue" 
+              <MetricsChart
+                data={chartTimeline}
+                dataKey="users"
+                height={200}
+                color="blue"
               />
             </div>
           </Card>
 
           {/* Gráfico 3: Gerações da IA (Roxo/Azul) */}
           <Card className="p-5 flex flex-col h-full">
-            <h4 className="text-sm font-medium text-text-secondary mb-4">AI Generations</h4>
+            <h4 className="text-sm font-medium text-text-secondary mb-4">
+              AI Generations
+            </h4>
             <div className="w-full flex-1">
-              <MetricsChart 
-                data={chartTimeline} 
-                dataKey="generations" 
-                height={200} 
-                color="purple" 
+              <MetricsChart
+                data={chartTimeline}
+                dataKey="generations"
+                height={200}
+                color="purple"
               />
             </div>
           </Card>
-
         </div>
-          
-       
-   
-     
       </div>
     </div>
   );

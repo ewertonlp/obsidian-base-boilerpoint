@@ -1,5 +1,5 @@
 import { createClient } from "@/app/lib/supabase/server";
-import { Sparkles, Crown, FileText, ArrowRight, Activity, Clock } from "lucide-react";
+import { Sparkles, Crown, FileText, ArrowRight, Activity, Clock, ChartBar, ChartBarIcon, ChartBarIncreasing, ChartColumnIncreasing } from "lucide-react";
 import Link from "next/link";
 import { Card } from "@/app/components/ui/Card";
 import { Button } from "@/app/components/ui/Button";
@@ -43,11 +43,12 @@ export default async function DashboardPage() {
       
       {/* Cabeçalho */}
       <div>
-        <h1 className="text-2xl font-bold tracking-tight text-accent-blue/90">
+        <h1 className="text-2xl font-bold tracking-tight text-text-primary flex items-center gap-2">
+         <ChartColumnIncreasing className="h-6 w-6 text-accent-blue" />
           Overview
         </h1>
         <p className="text-sm text-text-secondary mt-1">
-          Welcome back. Here is a summary of your content generation activity.
+          Here is a summary of your content generation activity.
         </p>
       </div>
 
@@ -55,11 +56,11 @@ export default async function DashboardPage() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         
         {/* Card 1: Total Generations */}
-        <Card glowColor="blue" className="p-6 flex flex-col h-full">
+        <Card glowColor="amber" className="p-6 flex flex-col h-full">
           <div className="flex justify-between items-center mb-4">
             <span className="text-sm font-medium text-text-secondary">Total Generations</span>
-            <div className="p-2 bg-accent-blue/10 rounded-lg border border-accent-blue/20">
-              <Sparkles className="w-4 h-4 text-accent-blue" />
+            <div className="p-2 bg-accent-amber/10 rounded-lg border border-accent-amber/30">
+              <Sparkles className="w-4 h-4 text-accent-amber" />
             </div>
           </div>
           <div className="flex items-baseline gap-2 mt-auto">
@@ -85,8 +86,8 @@ export default async function DashboardPage() {
         </Card>
 
         {/* Card 3: Quick Action (Elevated para destaque) */}
-        <Card elevated glowColor="violet" className="p-6 flex flex-col justify-between relative overflow-hidden group h-full">
-          <div className="absolute -top-12 -right-12 w-32 h-32 bg-accent-violet/20 blur-2xl rounded-full pointer-events-none transition-all group-hover:bg-accent-violet/30" />
+        <Card elevated glowColor="blue" className="p-6 flex flex-col justify-between relative overflow-hidden group h-full">
+          <div className="absolute -top-12 -right-12 w-32 h-32 bg-accent-blue/20 blur-2xl rounded-full pointer-events-none transition-all group-hover:bg-accent-blue/30" />
           
           <div className="relative z-10">
             <span className="text-sm font-medium text-text-secondary">Need new content?</span>
@@ -94,7 +95,7 @@ export default async function DashboardPage() {
           </div>
           
           <Link href="/dashboard/generator" className="w-full mt-4 relative z-10">
-            <Button variant="primary" className="w-full bg-accent-violet hover:bg-accent-violet/80 text-obsidian-bg shadow-accent-violet/20 border-none md:cursor-pointer">
+            <Button variant="primary" className="w-full bg-accent-blue hover:bg-accent-blue/80 text-obsidian-bg shadow-accent-blue/20 border-none md:cursor-pointer">
               <Sparkles className="w-4 h-4 mr-2" /> Launch Generator
             </Button>
           </Link>
@@ -106,7 +107,7 @@ export default async function DashboardPage() {
       <div className="space-y-4 pt-4">
         <div className="flex items-center justify-between">
           <h3 className="text-lg font-semibold text-text-primary flex items-center gap-2">
-            <Activity className="w-5 h-5 text-text-secondary" />
+            <Activity className="w-5 h-5 text-accent-blue" />
             Recent Activity
           </h3>
           <Link 

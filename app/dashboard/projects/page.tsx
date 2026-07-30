@@ -2,6 +2,7 @@ import { createClient } from "@/app/lib/supabase/server";
 import { Plus } from "lucide-react";
 import Link from "next/link";
 import ProjectsList from "./ProjectsList";
+import {FileText} from "lucide-react";
 
 export default async function ProjectsPage() {
   const supabase = await createClient();
@@ -20,7 +21,8 @@ export default async function ProjectsPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-text-primary tracking-tight">
+          <h1 className="text-2xl font-bold text-text-primary tracking-tight flex items-center gap-2">
+             <FileText className="h-6 w-6 text-accent-blue" />
             Generation History
           </h1>
           <p className="text-sm text-text-secondary mt-1">
@@ -29,7 +31,7 @@ export default async function ProjectsPage() {
         </div>
         <Link 
           href="/dashboard/generator"
-          className="flex items-center gap-2 bg-accent-violet hover:bg-accent-violet/80 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors md:cursor-pointer"
+          className="flex items-center gap-2 bg-accent-blue hover:bg-accent-blue/80 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors md:cursor-pointer"
         >
           <Plus className="w-4 h-4" />
           New Generation

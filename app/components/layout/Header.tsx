@@ -2,8 +2,9 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Code2, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { Button } from "@/app/components/ui/Button";
+import ObsidianLogo from "../ui/ObsidianLogo";
 
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -14,14 +15,7 @@ export function Header() {
     <header className="glass-panel sticky top-0 z-50 w-full border-b border-obsidian-border/50 border-x-0 border-t-0">
       <div className="flex h-16 items-center justify-between px-6 md:px-12">
         {/* Logo (Sempre visível) */}
-          <Link href="#">
-        <div className="flex items-center gap-2">
-            <Code2 className="h-6 w-6 text-accent-blue" />
-            <span className="text-lg font-bold tracking-wide text-text-primary">
-              Obsidian Base
-            </span>
-        </div>
-          </Link>
+      <ObsidianLogo />
 
         {/* Navegação Desktop (Escondida no Mobile) */}
         <nav className="hidden md:flex justify-center items-center gap-6 text-sm tracking-wider font-medium">
@@ -46,16 +40,16 @@ export function Header() {
         </nav>
 
         {/* Ações Desktop (Escondidas no Mobile) */}
-        <div className="hidden md:flex items-center gap-4">
+        <div className="hidden md:flex items-center gap-6">
           <Link
             href="/login"
             className="text-sm font-medium text-text-secondary hover:text-text-primary transition-colors"
           >
-            Login
+            Sign In
           </Link>
           <Link href="/register">
             <Button variant="primary" size="sm">
-              Get the Code
+              Sign Up
             </Button>
           </Link>
         </div>
@@ -64,7 +58,7 @@ export function Header() {
         <div className="flex md:hidden items-center gap-4">
           <Link href="/register">
             <Button variant="primary" size="sm" className="h-8 px-3 text-xs">
-              Get the Code
+              Sign Up
             </Button>
           </Link>
 

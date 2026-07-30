@@ -1,23 +1,18 @@
 import Link from "next/link";
-import { Code2 } from "lucide-react";
+import ObsidianLogo from "../ui/ObsidianLogo";
 
 
 export function Footer() {
   return (
     <footer className="bg-obsidian-surface/50 border-t border-obsidian-border/55  text-sm text-text-secondary">
       
-      {/* Container Principal: Empilhado no mobile (flex-col), lado a lado no desktop (md:flex-row) */}
+  
       <div className="flex flex-col md:flex-row items-center justify-between px-6 md:px-12 py-10 gap-8 md:gap-0">
         
         {/* Logo */}
-        <Link href="#" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-          <Code2 className="h-6 w-6 text-accent-blue" />
-          <span className="text-lg font-bold tracking-wide text-text-primary">
-            Obsidian Base
-          </span>
-        </Link>
+       <ObsidianLogo/>
 
-        {/* Navegação */}
+        {/* Navigation */}
         <nav className="flex flex-wrap justify-center items-center gap-6 md:gap-8 text-xs tracking-wider font-medium">
           <Link href="#features" className="hover:text-text-primary transition-colors">
             Features
@@ -42,8 +37,13 @@ export function Footer() {
         
       </div>
 
+
       {/* Faixa de Copyright Inferior */}
-      <div className="bg-black py-4 text-center md:text-end px-0 md:px-12">
+      <div className="bg-black py-3 block md:flex justify-between items-center text-center gap-3 md:text-end px-0 md:px-12">
+        <div className="flex justify-between items-center text-center gap-4 text-sm text-text-secondary/70 ">
+          <Link href="#" className="hover:text-text-primary transition-all">Terms of Use</Link>
+          <Link href="#" className="hover:text-text-primary transition-all">Privacy Policy</Link>
+        </div>
         <p className="text-xs tracking-wide text-text-secondary/70">
           © {new Date().getFullYear()} Obsidian Base. All rights reserved.
         </p>

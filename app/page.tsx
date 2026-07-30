@@ -6,6 +6,7 @@ import {
   Shield,
   CreditCard,
   Check,
+  Newspaper,
 } from "lucide-react";
 import { Button } from "./components/ui/Button";
 import { Card } from "./components/ui/Card";
@@ -25,12 +26,12 @@ export default function LandingPage() {
           {/* Brilho de fundo para dar profundidade */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-150 h-150 bg-accent-blue/5 blur-[120px] rounded-full pointer-events-none" />
 
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full glass-panel border-accent-blue/20 text-accent-blue text-sm font-medium mb-8">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-accent-blue/50 text-accent-blue text-sm font-medium mb-8 shadow-[0_0_30px_rgba(37,99,235,0.4)]">
             <Zap className="h-4 w-4" />
             <span>Ship your startup in days, not weeks.</span>
           </div>
 
-          <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-transparent bg-clip-text bg-linear-to-b from-white to-text-secondary pb-12 relative z-20">
+          <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-transparent bg-clip-text bg-linear-to-b from-white to-text-secondary py-8 relative z-20">
             The solid foundation <br /> for your next big idea.
           </h1>
 
@@ -69,9 +70,9 @@ export default function LandingPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Feature 1 */}
-            <Card glowColor="blue" className="p-8 flex flex-col h-full">
-              <div className="h-12 w-12 rounded-xl bg-accent-blue/10 flex items-center justify-center mb-6">
-                <Shield className="h-6 w-6 text-accent-blue" />
+            <Card glowColor="green" className="p-8 flex flex-col h-full">
+              <div className="h-12 w-12 rounded-xl bg-accent-green/10 flex items-center justify-center mb-6">
+                <Zap className="h-6 w-6 text-accent-green" />
               </div>
               <h3 className="text-xl font-semibold mb-3">Supabase Auth</h3>
               <p className="text-text-secondary text-sm">
@@ -81,9 +82,9 @@ export default function LandingPage() {
             </Card>
 
             {/* Feature 2 */}
-            <Card glowColor="violet" className="p-8 flex flex-col h-full">
-              <div className="h-12 w-12 rounded-xl bg-accent-violet/10 flex items-center justify-center mb-6">
-                <CreditCard className="h-6 w-6 text-accent-violet" />
+            <Card glowColor="blue" className="p-8 flex flex-col h-full">
+              <div className="h-12 w-12 rounded-xl bg-accent-blue/10 flex items-center justify-center mb-6">
+                <CreditCard className="h-6 w-6 text-accent-blue" />
               </div>
               <h3 className="text-xl font-semibold mb-3">Stripe Integration</h3>
               <p className="text-text-secondary text-sm">
@@ -93,9 +94,9 @@ export default function LandingPage() {
             </Card>
 
             {/* Feature 3 */}
-            <Card glowColor="green" className="p-8 flex flex-col h-full">
-              <div className="h-12 w-12 rounded-xl bg-accent-green/10 flex items-center justify-center mb-6">
-                <Code2 className="h-6 w-6 text-accent-green" />
+            <Card glowColor="amber" className="p-8 flex flex-col h-full">
+              <div className="h-12 w-12 rounded-xl bg-accent-amber/10 flex items-center justify-center mb-6">
+                <Code2 className="h-6 w-6 text-accent-amber" />
               </div>
               <h3 className="text-xl font-semibold mb-3">Premium Components</h3>
               <p className="text-text-secondary text-sm">
@@ -176,7 +177,7 @@ export default function LandingPage() {
             </div>
 
             {/* Plano Pro (Destaque) */}
-            <div className="glass-panel-elevated p-8 rounded-3xl border border-accent-blue/30 relative flex flex-col bg-obsidian-elevated/30">
+            <div className="glass-panel p-8 rounded-3xl border border-accent-blue/50 relative flex flex-col bg-obsidian-elevated/40 shadow-[0_0_30px_rgba(37,99,235,0.1)] hover:shadow-[0_0_40px_rgba(37,99,235,0.2)] transition-all">
               {/* Badge "Most Popular" flutuante */}
               <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-accent-blue text-white text-xs font-bold px-4 py-1 rounded-full uppercase tracking-wider shadow-lg shadow-accent-blue/20">
                 Most Popular
@@ -246,7 +247,7 @@ export default function LandingPage() {
           <div className="glass-panel-elevated rounded-3xl p-10 md:p-16 border border-accent-blue/20 text-center relative overflow-hidden flex flex-col items-center">
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-1/2 bg-accent-blue/10 blur-[80px] rounded-full pointer-events-none" />
 
-            <Zap className="h-10 w-10 text-accent-blue mb-6 relative z-10" />
+            <Newspaper className="h-10 w-10 text-accent-blue mb-6 relative z-10" />
             <h2 className="text-3xl md:text-4xl font-bold text-text-primary mb-4 relative z-10">
               Not ready to buy yet?
             </h2>

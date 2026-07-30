@@ -11,13 +11,13 @@
   /* Cores de sotaque suaves e sofisticadas */
   --color-accent-blue: #3b82f6;
   --color-accent-green: #10b981;
-  --color-accent-violet: #704A75;
-;
-  --color-accent-pink: ;
+  --color-accent-amber: #fe9a00;
 
   /* Cores de Texto */
   --color-text-primary: #f4f4f5;
   --color-text-secondary: #a1a1aa;
+
+  --font-sans: var(--font-poppins-sans), ui-sans-serif, system-ui, sans-serif;
 }
 
 /* 2. Estilos Globais Base */
@@ -37,7 +37,7 @@
 
 /* 3. Classes Utilitárias Customizadas (Glassmorphism) */
 @utility glass-panel {
-  background-color: color-mix(in srgb, var(--color-obsidian-surface) 60%, transparent);
+  background-color: color-mix(in srgb, var(--color-obsidian-surface) 75%, transparent);
   backdrop-filter: blur(12px);
   border: 1px solid var(--color-obsidian-border);
   box-shadow: var(--shadow-lg);

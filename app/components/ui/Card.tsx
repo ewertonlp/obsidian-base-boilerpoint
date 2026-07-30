@@ -2,7 +2,7 @@ import React, { HTMLAttributes } from "react";
 
 interface CardProps extends HTMLAttributes<HTMLDivElement> {
   elevated?: boolean;
-  glowColor?: "blue" | "green" | "violet" | "gold" | "none";
+  glowColor?: "blue" | "green" | "amber" | "gold" | "none";
 }
 
 export function Card({ 
@@ -22,7 +22,7 @@ export function Card({
     blue: "hover:border-accent-blue/30 hover:shadow-[0_0_30px_rgba(37,99,235,0.1)]",
     green: "hover:border-accent-green/30 hover:shadow-[0_0_30px_rgba(16,185,129,0.1)]",
     gold: "hover:border-accent-gold/30 hover:shadow-[0_0_30px_rgba(251,191,36,0.15)]",
-   violet: "hover:border-accent-violet/50 hover:shadow-[0_0_30px_rgba(139,92,246,0.1)]",
+   amber: "hover:border-accent-amber/50 hover:shadow-[0_0_30px_rgba(254, 154, 0, 0.2)]",
     none: "",
   };
 

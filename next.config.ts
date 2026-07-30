@@ -3,9 +3,9 @@ import rehypePrettyCode from 'rehype-pretty-code';
 
 /** @type {import('rehype-pretty-code').Options} */
 const options = {
-  // O tema 'github-dark' ou 'one-dark-pro' combina perfeitamente com o Obsidian Base
+
   theme: 'github-dark',
-  keepBackground: false, // Permite que usemos o fundo do nosso próprio design system
+  keepBackground: false, 
 };
 
 const withMDX = createMDX({

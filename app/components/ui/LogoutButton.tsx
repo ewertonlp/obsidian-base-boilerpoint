@@ -7,9 +7,9 @@ export function LogoutButton() {
     <form action={signOutAction} className="w-full">
       <Button 
         type="submit"
-        variant="ghost" 
+        variant="danger" 
         size="sm" 
-        className="text-text-secondary hover:text-red-500 hover:bg-red-500/10 w-full justify-start"
+        className="text-text-secondary rounded-br-2xl rounded-tr-2xl hover:text-red-400 w-full justify-start"
       >
         <LogOut className="mr-2 h-4 w-4" />
         Log out
