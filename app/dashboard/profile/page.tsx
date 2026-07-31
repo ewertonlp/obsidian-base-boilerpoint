@@ -1,45 +1,73 @@
-import { Camera, Mail, User, Save } from "lucide-react";
-import { Button } from "../../components/ui/Button";
-import { Input } from "../../components/ui/Input";
+"use client"
+
+import { useState } from "react"
+import { Camera, Mail, User, Save, User2 } from "lucide-react"
+import { Button } from "@/app/components/ui/Button" 
+import { Input } from "@/app/components/ui/Input"   
+import { Card } from "@/app/components/ui/Card"        
+import { toast } from "sonner"
 
 export default function ProfilePage() {
-  return (
-    <div className="p-8 max-w-4xl mx-auto w-full">
+  const [isLoading, setIsLoading] = useState(false)
+
+  // Simula o salvamento no Supabase
+  const handleSaveProfile = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsLoading(true)
+
+    try {
+      // Aqui entrará a sua Server Action do Supabase no futuro:
+      // await updateProfileAction(formData);
       
-      {/* Cabeçalho da Página */}
+      await new Promise(resolve => setTimeout(resolve, 1000))
+      
+      toast.success("Profile updated successfully!")
+    } catch (error) {
+      toast.error("Failed to update profile", {
+        description: "Please try again later."
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  return (
+    <div className="p-4 md:p-8 max-w-4xl mx-auto w-full animate-in fade-in slide-in-from-bottom-4 duration-700">
+      
       <div className="mb-8">
+        <div className="flex items-center gap-2">
+
+          <User2 className="w-6 h-6 text-accent-blue" />
         <h1 className="text-2xl font-bold tracking-tight text-text-primary">
           Profile Settings
         </h1>
+        </div>
         <p className="text-text-secondary mt-1">
           Manage your account details and public profile.
         </p>
       </div>
 
-      <div className="space-y-6">
+      <div className="space-y-6">  
         
-        {/* Seção 1: Foto de Perfil */}
-        <div className="glass-panel rounded-2xl p-6 border border-obsidian-border">
+        <Card className="p-6">
           <h2 className="text-lg font-medium text-text-primary mb-4">Profile Picture</h2>
           
-          <div className="flex items-center gap-6">
-            {/* Avatar com efeito de hover para upload */}
-            <div className="relative h-24 w-24 rounded-full bg-obsidian-surface border border-obsidian-border/50 flex items-center justify-center group overflow-hidden">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
+            <div className="relative h-24 w-24 shrink-0 rounded-full bg-obsidian-surface border border-obsidian-border/50 flex items-center justify-center group overflow-hidden">
               <User className="h-10 w-10 text-text-secondary" />
-              
-              {/* Máscara escura que aparece ao passar o mouse */}
-              <div className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
+           
+              <label className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
                 <Camera className="h-6 w-6 text-white" />
-              </div>
+                <input type="file" className="hidden" accept="image/*" />
+              </label>
             </div>
             
-            {/* Ações da Foto */}
             <div>
               <div className="flex gap-3">
                 <Button variant="secondary" size="sm">
                   Upload new
                 </Button>
-                <Button variant="ghost" size="sm" className="text-red-500 hover:text-red-500/80 hover:bg-red-500/10">
+                <Button variant="ghost" size="sm" className="text-red-500 hover:text-red-500/80 hover:bg-red-500/10 transition-colors">
                   Remove
                 </Button>
               </div>
@@ -48,14 +76,13 @@ export default function ProfilePage() {
               </p>
             </div>
           </div>
-        </div>
+        </Card>
 
-        {/* Seção 2: Informações Pessoais */}
-        <div className="glass-panel rounded-2xl p-6 border border-obsidian-border">
+       
+        <Card className="p-6">
           <h2 className="text-lg font-medium text-text-primary mb-4">Personal Information</h2>
           
-          <form className="space-y-5">
-            {/* Grid para dividir Nome e Sobrenome lado a lado em telas maiores */}
+          <form onSubmit={handleSaveProfile} className="space-y-5">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <Input 
                 label="First Name" 
@@ -71,7 +98,6 @@ export default function ProfilePage() {
               />
             </div>
 
-            {/* O campo de E-mail geralmente fica desabilitado pois a troca exige confirmação de segurança (OTP) */}
             <Input 
               label="Email Address" 
               type="email" 
@@ -80,15 +106,15 @@ export default function ProfilePage() {
               disabled 
             />
 
-            {/* Rodapé do Formulário com Botão de Salvar */}
+        
             <div className="pt-4 mt-6 border-t border-obsidian-border/50 flex justify-end">
-              <Button variant="primary">
+              <Button type="submit" isLoading={isLoading} className="bg-accent-blue text-white hover:bg-accent-blue/90 w-full sm:w-auto">
                 <Save className="mr-2 h-4 w-4" />
                 Save Changes
               </Button>
             </div>
           </form>
-        </div>
+        </Card>
 
       </div>
     </div>

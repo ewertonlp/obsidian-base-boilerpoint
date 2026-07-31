@@ -5,7 +5,6 @@ import { render } from "@react-email/components";
 import { WelcomeEmail } from "@/app/emails/WelcomeEmail";
 import React from "react";
 
-
 const mailchimp = mailchimpTx(process.env.MAILCHIMP_API_KEY as string);
 
 export async function sendWelcomeEmailMailchimp(userEmail: string, userName: string) {

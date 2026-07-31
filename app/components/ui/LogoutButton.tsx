@@ -1,6 +1,6 @@
-import { LogOut } from "lucide-react";
-import { Button } from "@/app/components/ui/Button";
-import { signOutAction } from "@/app/actions/auth"; // Verifique se o caminho bate com o seu
+import { LogOut } from "lucide-react"
+import { Button } from "@/app/components/ui/Button"
+import { signOutAction } from "@/app/actions/auth"
 
 export function LogoutButton() {
   return (
@@ -15,5 +15,5 @@ export function LogoutButton() {
         Log out
       </Button>
     </form>
-  );
+  )
 }

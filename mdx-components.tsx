@@ -1,5 +1,5 @@
 import type { MDXComponents } from 'mdx/types';
-import { Card } from '@/app/components/ui/Card'; // Exemplo de componente React no MDX
+import { Card } from '@/app/components/ui/Card';
 
 export function useMDXComponents(components: MDXComponents): MDXComponents {
   return {
@@ -28,7 +28,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
         {children}
       </ul>
     ),
-    // Estilização da caixa de código pré-formatada gerada pelo rehype-pretty-code
+   
     pre: ({ children, ...props }) => (
       <pre 
         {...props} 
@@ -37,9 +37,9 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
         {children}
       </pre>
     ),
-    // Estilização de código inline (ex: `const x = 1`)
+   
     code: ({ children, className }) => {
-      // Se não tiver classe, é código inline
+  
       if (!className) {
         return (
           <code className="px-1.5 py-0.5 rounded-md bg-accent-blue/10 text-accent-blue font-mono text-sm">
@@ -47,10 +47,10 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
           </code>
         );
       }
-      // Se tiver classe, é bloco de código renderizado pelo rehype
+  
       return <code className={className}>{children}</code>;
     },
-    // Você pode injetar seus componentes React diretamente no Markdown!
+  
     Card,
     ...components,
   };

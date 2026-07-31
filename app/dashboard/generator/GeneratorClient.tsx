@@ -1,15 +1,15 @@
-// src/app/dashboard/generator/GeneratorClient.tsx
-"use client";
+"use client"
 
-import { useState } from "react";
-import { useCompletion } from "@ai-sdk/react";
-import { Sparkles, Copy, Check, Loader2, Send } from "lucide-react";
+import { useState } from "react"
+import { useCompletion } from "@ai-sdk/react"
+import { Sparkles, Copy, Check, Loader2, Send } from "lucide-react"
+import { toast } from "sonner"
 
 export default function GeneratorClient() {
-  const [tone, setTone] = useState("Professional");
+  const [tone, setTone] = useState("Professional")
   const [output, setOutput] = useState("Text");
-  const [audience, setAudience] = useState("Beginners");
-  const [copied, setCopied] = useState(false);
+  const [audience, setAudience] = useState("Beginners")
+  const [copied, setCopied] = useState(false)
 
   const { completion, input, handleInputChange, handleSubmit, isLoading } =
     useCompletion({
@@ -17,14 +17,17 @@ export default function GeneratorClient() {
       body: { tone, audience, output },
       onError: (err) => {
         console.error("Erro na IA:", err);
-        alert("Ocorreu um erro ao gerar. Verifique o console do navegador.");
+        toast.error("Failed to generate content.", {
+          description: "Please check your browser console for more details.",
+        });
       },
-    });
+    })
 
   const copyToClipboard = () => {
     if (!completion) return;
     navigator.clipboard.writeText(completion);
     setCopied(true);
+    toast.success("Copied to clipboard!"); 
     setTimeout(() => setCopied(false), 2000);
   };
 
@@ -121,7 +124,6 @@ export default function GeneratorClient() {
             />
           </div>
 
-          {/* Submit Button */}
           <button
             type="submit"
             disabled={isLoading || !input}
@@ -144,7 +146,6 @@ export default function GeneratorClient() {
         {/* AI Result */}
         <div className="lg:col-span-6">
           <div className="h-full min-h-80 flex flex-col bg-obsidian-surface/30 border border-obsidian-border/50 rounded-xl backdrop-blur-xl overflow-hidden relative group">
-            {/* Toolbar do Resultado */}
             <div className="flex items-center justify-between px-4 py-3 border-b border-obsidian-border/50 bg-obsidian-elevated/30">
               <span className="text-xs font-medium text-text-secondary uppercase tracking-wider">
                 Output
@@ -164,7 +165,6 @@ export default function GeneratorClient() {
               )}
             </div>
 
-            {/* Área de Texto */}
             <div className="p-6 flex-1 overflow-y-auto">
               {completion ? (
                 <div className="prose prose-invert max-w-none text-text-primary text-sm leading-relaxed whitespace-pre-wrap">
@@ -183,5 +183,5 @@ export default function GeneratorClient() {
         </div>
       </div>
     </div>
-  );
+  )
 }

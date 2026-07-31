@@ -21,7 +21,6 @@ export default async function DashboardLayout({
     redirect("/login");
   }
 
-  // Busca os dados do perfil gerados automaticamente pelo Trigger
   const { data: profile } = await supabase
     .from("profiles")
     .select("full_name, role")

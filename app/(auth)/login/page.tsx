@@ -13,11 +13,10 @@ export default function LoginPage() {
   const router = useRouter();
   const supabase = createClient();
 
-  // Estados do formulário
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  // Estados de feedback visual
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -27,21 +26,18 @@ export default function LoginPage() {
     setError(null);
 
     try {
-      // 1. Chama a função de login do Supabase
       const { error: signInError } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
 
       if (signInError) {
-        // Tradução de erros comuns para uma melhor experiência do usuário
         if (signInError.message === "Invalid login credentials") {
           throw new Error("E-mail ou senha incorretos.");
         }
         throw signInError;
       }
 
-      // 2. Se deu certo, o usuário recebe o cookie de sessão e vai para o dashboard
       router.push("/dashboard");
       router.refresh(); 
     } catch (err: any) {
@@ -63,7 +59,7 @@ export default function LoginPage() {
           </p>
         </div>
 
-        {/* Mensagem de Erro */}
+  
         {error && (
           <div className="mb-6 flex items-center gap-2 rounded-lg bg-red-500/10 p-3 text-sm text-red-500 border border-red-500/20">
             <AlertCircle className="h-4 w-4" />

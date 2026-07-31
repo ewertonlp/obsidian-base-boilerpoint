@@ -13,12 +13,10 @@ export default function RegisterPage() {
   const router = useRouter();
   const supabase = createClient();
 
-  // Estados do formulário
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  // Estados de feedback visual
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -28,7 +26,6 @@ export default function RegisterPage() {
     setError(null);
 
     try {
-      // 1. Chama a função de registro do Supabase
       const { data, error: signUpError } = await supabase.auth.signUp({
         email,
         password,
@@ -41,8 +38,6 @@ export default function RegisterPage() {
 
       if (signUpError) throw signUpError;
 
-      // 2. Se deu certo, redireciona o usuário para o dashboard
-      // (O nosso middleware.ts vai liberar a passagem automaticamente)
       router.push("/dashboard");
     } catch (err: any) {
       setError(err.message || "Ocorreu um erro ao criar a conta.");
@@ -63,7 +58,6 @@ export default function RegisterPage() {
           </p>
         </div>
 
-        {/* Mensagem de Erro (se houver) */}
         {error && (
           <div className="mb-6 flex items-center gap-2 rounded-lg bg-red-500/10 p-3 text-sm text-red-500 border border-red-500/20">
             <AlertCircle className="h-4 w-4" />
@@ -112,7 +106,6 @@ export default function RegisterPage() {
             </div>
           </div>
 
-          {/* O componente Button agora recebe o isLoading para girar o ícone e travar múltiplos cliques */}
           <Button
             variant="primary"
             className="w-full mt-2"

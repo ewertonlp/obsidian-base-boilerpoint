@@ -6,7 +6,6 @@ export function Footer() {
   return (
     <footer className="bg-obsidian-surface/50 border-t border-obsidian-border/55  text-sm text-text-secondary">
       
-  
       <div className="flex flex-col md:flex-row items-center justify-between px-6 md:px-12 py-10 gap-8 md:gap-0">
         
         {/* Logo */}

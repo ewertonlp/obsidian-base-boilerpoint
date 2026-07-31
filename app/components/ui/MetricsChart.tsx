@@ -17,7 +17,7 @@ interface MetricsChartProps {
  data: Record<string, any>[];
   dataKey?: string;
   height?: number;
-  color?: "blue" | "green" | "gold" | "purple";
+  color?: "blue" | "green" | "amber" | "fuchsia";
   valuePrefix?: string;
 }
 
@@ -33,8 +33,8 @@ export function MetricsChart({
   const themeColors = {
     blue: "#3b82f6", 
     green: "#10b981", 
-    gold: "#fbbf24", 
-    purple: "#704A75"
+    amber: "#fe9a00", 
+    fuchsia: "#c800de"
   };
 
   const activeColor = themeColors[color];
@@ -49,7 +49,6 @@ export function MetricsChart({
           </linearGradient>
         </defs>
         
-        {/* Eixos com cores sutis para não poluir o design */}
         <XAxis 
           dataKey="name" 
           stroke="#525252" 
@@ -65,10 +64,8 @@ export function MetricsChart({
           tickFormatter={(value) => `${valuePrefix}${value}`}
         />
         
-        {/* Grade de fundo tracejada super leve */}
         <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#262626" />
         
-        {/* Tooltip customizado com Glassmorphism */}
        <Tooltip
           contentStyle={{ 
             backgroundColor: "rgba(10, 10, 10, 0.8)", 

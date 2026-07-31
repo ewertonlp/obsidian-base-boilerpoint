@@ -18,7 +18,6 @@ export async function subscribeToNewsletter(email: string) {
     
     return { success: true, data: response };
   } catch (error: any) {
-    // O Mailchimp retorna erro se o e-mail já estiver na lista
     if (error.response?.body?.title === "Member Exists") {
       return { success: true, message: "Você já está na nossa lista!" };
     }

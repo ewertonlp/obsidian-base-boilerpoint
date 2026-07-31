@@ -12,7 +12,7 @@ const supabaseAdmin = createClient(
 );
 
 export async function POST(req: Request) {
-  console.log("🟢 [WEBHOOK] Rota foi chamada pelo Stripe!"); // Radar 1
+  console.log("🟢 [WEBHOOK] Route was called by Stripe!");
 
   const body = await req.text();
   const signature = req.headers.get("stripe-signature") as string;
@@ -25,9 +25,9 @@ export async function POST(req: Request) {
       signature,
       process.env.STRIPE_WEBHOOK_SECRET!
     );
-    console.log("🟢 [WEBHOOK] Assinatura validada. Evento:", event.type); // Radar 2
+    console.log("🟢 [WEBHOOK] Signature validated. Event:", event.type); 
   } catch (err: any) {
-    console.error("🔴 [WEBHOOK] Erro de Assinatura:", err.message); // Radar de erro
+    console.error("🔴 [WEBHOOK] Signature error:", err.message); 
     return new NextResponse(`Erro: ${err.message}`, { status: 400 });
   }
 
@@ -35,7 +35,7 @@ export async function POST(req: Request) {
     const session = event.data.object as Stripe.Checkout.Session;
     const userId = session.metadata?.userId;
 
-    console.log("🟢 [WEBHOOK] Metadata recebido. User ID:", userId); // Radar 3
+    console.log("🟢 [WEBHOOK] Metadata received. User ID:", userId); 
 
     if (userId) {
       const { data, error } = await supabaseAdmin

@@ -10,30 +10,22 @@ export default async function GeneratorPage() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
-  // Verifica o status da assinatura do usuário no banco
  const { data: subscription, error } = await supabase
     .from("subscriptions")
     .select("status")
     .eq("id", user?.id);
 
-  console.log("=== DIAGNÓSTICO PROFUNDO ===");
-  console.log("1. Buscando o ID exato:", user?.id);
-  console.log("2. Dados que voltaram:", JSON.stringify(subscription));
-  console.log("3. Erro real (se houver):", JSON.stringify(error));
 
   const isPro = subscription?.[0]?.status === "active";
 
-  // Se o usuário for PRO, renderiza a interface do gerador
   if (isPro) {
     return <GeneratorClient />;
   }
 
-  // Se o usuário for FREE, renderiza a tela de bloqueio com Glassmorphism
   return (
     <div className="max-w-3xl mx-auto flex flex-col items-center justify-center min-h-[60vh] animate-in fade-in zoom-in-95 duration-700">
       <div className="bg-obsidian-surface/30 border border-obsidian-border/50 p-8 rounded-2xl backdrop-blur-xl text-center space-y-6 relative overflow-hidden">
         
-        {/* Efeito visual de fundo */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-32 bg-accent-blue/20 blur-[50px] rounded-full pointer-events-none" />
 
         <div className="mx-auto w-16 h-16 bg-obsidian-elevated flex items-center justify-center rounded-full border border-obsidian-border/50 mb-6">

@@ -6,7 +6,6 @@ import {
 } from 'ai';
 import { createClient } from "@/app/lib/supabase/server";
 
-// Permite que a requisição dure até 30 segundos
 export const maxDuration = 30;
 
 const deepseek = createDeepSeek({
@@ -14,7 +13,6 @@ const deepseek = createDeepSeek({
 });
 
 export async function POST(req: Request) {
-  // 1. Verificação de Segurança
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
@@ -29,29 +27,31 @@ export async function POST(req: Request) {
     .single();
 
   if (subscription?.status !== "active") {
-    // 402 é o código HTTP oficial para "Payment Required" (Pagamento Necessário)
+    // 402 is the official HTTP code for 'Payment Required'
     return new Response("Payment Required", { status: 402 }); 
   }
 
-  // 2. Coleta os dados enviados pela interface
-  const { prompt, tone } = await req.json();
+  const { prompt, tone, audience, output } = await req.json();
 
-  // 3. Define o comportamento da IA
   const systemMessage = `You are an elite copywriter and content strategist. 
   Generate high-quality, engaging content based on the user's prompt. 
-  The tone of the content should be: ${tone}.
+
+  Follow these strict rules:
+  - Tone of voice: ${tone}
+  - Target audience: ${audience}
+  - Output format: ${output}
+
   Provide only the generated content, without any introductory or concluding conversational filler.`;
 
-  // 4. Chama a OpenAI e faz o stream da resposta
   const result = await streamText({
-    model: deepseek("deepseek-chat"), // Modelo rápido, inteligente e barato
+    model: deepseek("deepseek-chat"),
     system: systemMessage,
     prompt: prompt,
   
 
 
   async onFinish({ text }) {
-      // Cria um título curto baseado no que o usuário digitou (pegando os primeiros 40 caracteres)
+      // Create a short title based on what the user typed (taking the first 40 characters)
       const shortTitle = prompt.length > 40 ? prompt.substring(0, 40) + "..." : prompt;
 
       const { error } = await supabase
@@ -59,8 +59,8 @@ export async function POST(req: Request) {
         .insert({
           user_id: user.id,
           title: shortTitle,
-          type: tone, // Salva o tom de voz usado como o "tipo"
-          content: text, // O texto final completo gerado pela IA
+          type: JSON.stringify({ tone, audience, output }),
+          content: text,
           status: "Completed",
         });
 

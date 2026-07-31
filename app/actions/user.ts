@@ -66,17 +66,13 @@ export async function deleteAccountAction() {
 
   if (!user) throw new Error("Não autorizado");
 
-  // Para deletar um usuário no Supabase, precisamos da chave de admin (Service Role)
-  // Certifique-se de adicionar SUPABASE_SERVICE_ROLE_KEY no seu .env.local
   const supabaseAdmin = createAdminClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.SUPABASE_SERVICE_ROLE_KEY!
   );
 
-  // Deleta o usuário da autenticação (isso fará o trigger apagar o perfil em cascata)
   await supabaseAdmin.auth.admin.deleteUser(user.id);
   
-  // Apaga os cookies de sessão e redireciona
   await supabase.auth.signOut();
   redirect("/login");
 }

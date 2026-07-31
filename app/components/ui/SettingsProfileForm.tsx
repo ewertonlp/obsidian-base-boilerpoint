@@ -22,7 +22,6 @@ export function SettingsProfileForm({ initialName, email }: SettingsProfileFormP
     
     if (result.success) {
       setIsSuccess(true);
-      // Remove a mensagem de sucesso após 3 segundos
       setTimeout(() => setIsSuccess(false), 3000);
     }
     
@@ -35,7 +34,6 @@ export function SettingsProfileForm({ initialName, email }: SettingsProfileFormP
       
       <form action={handleSubmit} className="space-y-6">
         
-        {/* Campo Bloqueado: E-mail */}
         <div className="space-y-2">
           <label className="text-sm font-medium text-text-secondary flex items-center gap-2">
             <Mail className="h-4 w-4" /> Email address
@@ -49,7 +47,6 @@ export function SettingsProfileForm({ initialName, email }: SettingsProfileFormP
           <p className="text-xs text-text-secondary/70">The email can&apos;t be changed at the moment.</p>
         </div>
 
-        {/* Campo Editável: Nome */}
         <div className="space-y-2">
           <label htmlFor="full_name" className="text-sm font-medium text-text-primary flex items-center gap-2">
             <User className="h-4 w-4" /> Full Name

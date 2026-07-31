@@ -15,7 +15,6 @@ export async function POST(req: Request) {
       return new NextResponse("Não autorizado", { status: 401 });
     }
 
-    // Busca o ID do cliente do Stripe no nosso banco
     const { data: subscription } = await supabase
       .from("subscriptions")
       .select("stripe_customer_id")
@@ -26,7 +25,6 @@ export async function POST(req: Request) {
       return new NextResponse("Cliente não encontrado", { status: 400 });
     }
 
-    // Gera a URL mágica e segura do portal do Stripe
     const session = await stripe.billingPortal.sessions.create({
       customer: subscription.stripe_customer_id,
       return_url: `${process.env.NEXT_PUBLIC_SITE_URL}/dashboard/settings`,

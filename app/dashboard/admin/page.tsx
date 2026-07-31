@@ -124,7 +124,7 @@ export default async function AdminDashboardPage({
       // AGRUPAMENTO POR DIA (7 ou 30 dias)
       const d = new Date(startDate);
       d.setDate(d.getDate() + i);
-      const dayStr = d.toISOString().split("T")[0]; // Ex: "2026-07-24"
+      const dayStr = d.toISOString().split("T")[0]; 
 
       // Se for 30 dias, mostra o dia do mês (ex: "15"). Se for 7 dias, mostra a semana (ex: "Mon")
       pointName =
@@ -151,7 +151,6 @@ export default async function AdminDashboardPage({
     };
   });
 
- 
   console.log(
     "=== DADOS DOS GRÁFICOS ===",
     JSON.stringify(chartTimeline, null, 2),
@@ -169,7 +168,6 @@ export default async function AdminDashboardPage({
         </p>
       </div>
 
-      {/* CONTROLES DE FILTRO */}
       <div className="flex items-center bg-obsidian-surface/50 border border-obsidian-border/50 rounded-lg p-1">
         <Link
           href="/dashboard/admin?range=7d"
@@ -191,9 +189,8 @@ export default async function AdminDashboardPage({
         </Link>
       </div>
 
-      {/* Grid de Métricas Globais */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div className="bg-obsidian-surface/30 border border-obsidian-border/50 p-6 rounded-xl backdrop-blur-xl flex flex-col hover:border-obsidian-border transition-colors">
+        <Card glowColor="blue" className="p-6 flex flex-col h-full">
           <div className="flex justify-between items-center mb-4">
             <span className="text-sm font-medium text-text-secondary">
               Total Users
@@ -202,14 +199,15 @@ export default async function AdminDashboardPage({
               <Users className="w-4 h-4 text-blue-400" />
             </div>
           </div>
+
           <div className="flex items-baseline gap-2 mt-auto">
             <h2 className="text-3xl font-bold text-text-primary">
               {usersCount.toLocaleString()}
             </h2>
           </div>
-        </div>
+        </Card>
 
-        <div className="bg-obsidian-surface/30 border border-obsidian-border/50 p-6 rounded-xl backdrop-blur-xl flex flex-col hover:border-obsidian-border transition-colors">
+         <Card glowColor="green" className="p-6 flex flex-col h-full">
           <div className="flex justify-between items-center mb-4">
             <span className="text-sm font-medium text-text-secondary">
               Monthly Revenue (MRR)
@@ -223,9 +221,9 @@ export default async function AdminDashboardPage({
               ${monthlyRevenue.toLocaleString()}
             </h2>
           </div>
-        </div>
+        </Card>
 
-        <div className="bg-obsidian-surface/30 border border-obsidian-border/50 p-6 rounded-xl backdrop-blur-xl flex flex-col hover:border-obsidian-border transition-colors">
+        <Card glowColor="amber" className="p-6 flex flex-col h-full">
           <div className="flex justify-between items-center mb-4">
             <span className="text-sm font-medium text-text-secondary">
               Conversion Rate
@@ -239,15 +237,15 @@ export default async function AdminDashboardPage({
               {conversionRate}%
             </h2>
           </div>
-        </div>
+        </Card>
 
-        <div className="bg-obsidian-surface/30 border border-obsidian-border/50 p-6 rounded-xl backdrop-blur-xl flex flex-col hover:border-obsidian-border transition-colors">
+         <Card glowColor="fuchsia" className="p-6 flex flex-col h-full">
           <div className="flex justify-between items-center mb-4">
             <span className="text-sm font-medium text-text-secondary">
               Total Generations
             </span>
-            <div className="p-2 bg-purple-500/10 rounded-lg border border-purple-500/20">
-              <Summary className="w-4 h-4 text-purple-400" />
+            <div className="p-2 bg-purple-500/10 rounded-lg border border-accent-fuchsia/30">
+              <Summary className="w-4 h-4 text-accent-fuchsia" />
             </div>
           </div>
           <div className="flex items-baseline gap-2 mt-auto">
@@ -255,24 +253,15 @@ export default async function AdminDashboardPage({
               {totalGenerations}
             </h2>
           </div>
-        </div>
+        </Card>
       </div>
 
-      {/* Seção de Atividade Recente (Gráfico Real) */}
+  
       <div className="space-y-4 pt-4 relative">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-accent-blue/5 blur-[80px] rounded-full pointer-events-none" />
 
-        <div className="mb-6">
-          <h3 className="text-lg font-semibold text-text-primary">
-            Desempenho de Gerações da IA
-          </h3>
-          <p className="text-sm text-text-secondary mt-1">
-            Content generation volume over the last 7 days.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Gráfico 1: Receita (Verde/Dourado) */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 py-12 border-t border-t-obsidian-border/50">
+ 
           <Card className="p-5 flex flex-col h-full">
             <h4 className="text-sm font-medium text-text-secondary mb-4">
               New Revenue
@@ -288,7 +277,6 @@ export default async function AdminDashboardPage({
             </div>
           </Card>
 
-          {/* Gráfico 2: Novos Usuários (Azul) */}
           <Card className="p-5 flex flex-col h-full">
             <h4 className="text-sm font-medium text-text-secondary mb-4">
               New Users
@@ -303,7 +291,6 @@ export default async function AdminDashboardPage({
             </div>
           </Card>
 
-          {/* Gráfico 3: Gerações da IA (Roxo/Azul) */}
           <Card className="p-5 flex flex-col h-full">
             <h4 className="text-sm font-medium text-text-secondary mb-4">
               AI Generations
@@ -313,7 +300,7 @@ export default async function AdminDashboardPage({
                 data={chartTimeline}
                 dataKey="generations"
                 height={200}
-                color="purple"
+                color="fuchsia"
               />
             </div>
           </Card>

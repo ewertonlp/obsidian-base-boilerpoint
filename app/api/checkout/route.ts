@@ -14,14 +14,12 @@ export async function POST(req: Request) {
     return new NextResponse("Não autorizado", { status: 401 });
   }
 
-  // Busca ou cria o Customer ID do Stripe no seu banco
   let { data: sub } = await supabase
     .from("subscriptions")
     .select("stripe_customer_id")
     .eq("id", user.id)
     .single();
 
-  // Cria a sessão de checkout
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ["card"],
     customer_email: user.email,
@@ -35,7 +33,7 @@ export async function POST(req: Request) {
     success_url: `${process.env.NEXT_PUBLIC_SITE_URL}/dashboard?success=true`,
     cancel_url: `${process.env.NEXT_PUBLIC_SITE_URL}/dashboard?canceled=true`,
     metadata: {
-      userId: user.id, // Isso é vital para o Webhook saber quem pagou
+      userId: user.id, 
     },
   });
 

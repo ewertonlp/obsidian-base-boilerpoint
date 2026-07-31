@@ -22,7 +22,6 @@ export function SettingsSecurityForm() {
     } else if (result.success) {
       setIsSuccess(true);
       setTimeout(() => setIsSuccess(false), 3000);
-      // Limpa os campos do formulário
       (document.getElementById("security-form") as HTMLFormElement).reset();
     }
     

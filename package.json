@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-   "dev": "next dev --webpack",
+    "dev": "next dev --webpack",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"
@@ -30,6 +30,7 @@
     "rehype-pretty-code": "^0.14.5",
     "resend": "^6.18.0",
     "shiki": "^4.3.1",
+    "sonner": "^2.0.7",
     "stripe": "^22.3.2"
   },
   "devDependencies": {

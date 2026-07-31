@@ -1,44 +1,50 @@
-"use client"; // Necessário para usar o hook usePathname
+"use client"
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { LayoutDashboard, Users, Settings, CodeSquare, Sparkles, ShieldAlert } from "lucide-react";
-import ObsidianLogo from "../ui/ObsidianLogo";
+import Link from "next/link"
+import { usePathname } from "next/navigation"
+import {
+  LayoutDashboard,
+  Users,
+  Settings,
+  Sparkles,
+  ShieldAlert,
+} from "lucide-react"
+import ObsidianLogo from "../ui/ObsidianLogo"
 
 export function Sidebar({ isAdmin }: { isAdmin?: boolean }) {
-  const pathname = usePathname(); 
-
-  // Função auxiliar para definir o estilo baseado na rota ativa
+  const pathname = usePathname()
   const getLinkStyle = (href: string) => {
-    const isActive = pathname === href;
-    
+    const isActive = pathname === href
+
     return `flex items-center rounded-lg px-3 py-2 text-sm font-medium transition-all duration-200 ${
       isActive
-        ? "bg-accent-blue/15 text-accent-blue" 
-        : "text-text-secondary hover:bg-obsidian-surface/50 hover:text-text-primary" 
+        ? "bg-accent-blue/15 text-accent-blue"
+        : "text-text-secondary hover:bg-obsidian-surface/50 hover:text-text-primary"
     }`;
-  };
+  }
 
   return (
     <aside className="glass-panel sticky top-0 flex h-screen md:w-64 flex-col border-r border-y-0 border-l-0">
-      
-      {/* Logo Area */}
-
       <ObsidianLogo />
 
-      {/* Navigation Links */}
       <nav className="flex-1 space-y-1 px-4 pt-10">
         <Link href="/dashboard" className={getLinkStyle("/dashboard")}>
           <LayoutDashboard className="mr-3 h-5 w-5" />
           Dashboard
         </Link>
-        
-        <Link href="/dashboard/generator" className={getLinkStyle("/dashboard/generator")}>
+
+        <Link
+          href="/dashboard/generator"
+          className={getLinkStyle("/dashboard/generator")}
+        >
           <Sparkles className="mr-3 h-5 w-5" />
           AI Generator
         </Link>
-        
-        <Link href="/dashboard/projects" className={getLinkStyle("/dashboard/projects")}>
+
+        <Link
+          href="/dashboard/projects"
+          className={getLinkStyle("/dashboard/projects")}
+        >
           <Users className="mr-3 h-5 w-5" />
           Projects
         </Link>
@@ -58,18 +64,17 @@ export function Sidebar({ isAdmin }: { isAdmin?: boolean }) {
             </Link>
           </div>
         )}
-        
-      
       </nav>
 
-      {/* Bottom Actions */}
       <div className="p-4 border-t border-obsidian-border/50">
-        <Link href="/dashboard/settings" className={getLinkStyle("/dashboard/settings")}>
+        <Link
+          href="/dashboard/settings"
+          className={getLinkStyle("/dashboard/settings")}
+        >
           <Settings className="mr-3 h-5 w-5" />
-          Configurações
+          Settings
         </Link>
       </div>
-      
     </aside>
   );
 }

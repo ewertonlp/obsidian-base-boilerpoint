@@ -14,10 +14,9 @@ export function Header() {
   return (
     <header className="glass-panel sticky top-0 z-50 w-full border-b border-obsidian-border/50 border-x-0 border-t-0">
       <div className="flex h-16 items-center justify-between px-6 md:px-12">
-        {/* Logo (Sempre visível) */}
       <ObsidianLogo />
 
-        {/* Navegação Desktop (Escondida no Mobile) */}
+        {/* Nav Desktop  */}
         <nav className="hidden md:flex justify-center items-center gap-6 text-sm tracking-wider font-medium">
           <Link
             href="#features"
@@ -39,7 +38,6 @@ export function Header() {
           </Link>
         </nav>
 
-        {/* Ações Desktop (Escondidas no Mobile) */}
         <div className="hidden md:flex items-center gap-6">
           <Link
             href="/login"
@@ -54,7 +52,7 @@ export function Header() {
           </Link>
         </div>
 
-        {/* Controles Mobile (Escondidos no Desktop) */}
+        {/* Mobile Controls */}
         <div className="flex md:hidden items-center gap-4">
           <Link href="/register">
             <Button variant="primary" size="sm" className="h-8 px-3 text-xs">
@@ -76,7 +74,7 @@ export function Header() {
         </div>
       </div>
 
-      {/* Menu Mobile Dropdown */}
+      {/* Mobile Dropdown */}
       {isMobileMenuOpen && (
         <div className="md:hidden absolute top-16 left-0 w-full glass-panel border-b border-obsidian-border/50 bg-obsidian/90 backdrop-blur-3xl shadow-2xl animate-in slide-in-from-top-2 duration-200">
           <div className="flex flex-col px-6 py-6 gap-6">

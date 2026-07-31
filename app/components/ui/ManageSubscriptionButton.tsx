@@ -12,7 +12,7 @@ export function ManageSubscriptionButton() {
     try {
       const response = await fetch("/api/billing", { method: "POST" });
       const { url } = await response.json();
-      window.location.href = url; // Redireciona para o portal do Stripe
+      window.location.href = url; // Redirects to the Stripe portal
     } catch (error) {
       console.error("Erro ao abrir portal:", error);
       setIsLoading(false);
@@ -24,7 +24,7 @@ export function ManageSubscriptionButton() {
       onClick={handleManage} 
       isLoading={isLoading} 
       variant="secondary" 
-      className="bg-obsidian-surface border-obsidian-border hover:bg-obsidian-surface/80"
+      className="bg-obsidian-surface border-obsidian-border hover:bg-obsidian-surface/70 hover:border-accent-blue/50"
     >
       <CreditCard className="w-4 h-4 mr-2 text-text-secondary" />
      Manage Subscription
